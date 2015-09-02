@@ -7,6 +7,34 @@ button {
 	height: 12em;
 }
 
+.top-header {
+	max-width: 98%;
+	display: -webkit-flex;
+	display: flex;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	align-items: center;
+}
+
+.hamburger-container {
+	width: 50%;
+}
+
+.score-box {
+	width: 50%;
+	display: -webkit-flex;
+	display: flex;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	align-items: center;
+}
+
 #hamburger svg {
 	width: 40px;
 	fill: #000;
@@ -41,7 +69,7 @@ button {
 
 @media only screen and (max-width: 799px) {
 	#theGame {
-		max-width: 50%;
+		max-width: 65%;
 	}
 	
 	canvas {

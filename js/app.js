@@ -1,5 +1,5 @@
 // Enemies our player must avoid
-
+currentScore = 0;
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
@@ -51,6 +51,13 @@ Enemy.prototype.update = function(dt) {
 		if(enemyOwnedPositions[atRiskX][atRiskY]) {
 			console.log("collision!");
 			player.reset();
+			alert("Oh no");
+			currentScore -= 10;
+			document.getElementById("currentScore").innerHTML =currentScore;
+			if(allEnemies.length > 1){
+				allEnemies.pop();
+			}
+			recalcEnemyPositions();
 		}
 	}
 	
@@ -76,6 +83,19 @@ enemyOwnedPositions.push([false,false,false,false,false]);
 enemyOwnedPositions.push([false,false,false,false,false]);
 enemyOwnedPositions.push([false,false,false,false,false]);
 
+
+recalcEnemyPositions = function(){
+	console.log(allEnemies);
+
+	
+	for(var i=0;i<enemyOwnedPositions.length;i++) {
+		for (var j=0; j<enemyOwnedPositions[i].length;j++) {
+			enemyOwnedPositions[i][j] = false;
+		}
+			
+	}
+	console.log(enemyOwnedPositions);
+}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -113,7 +133,25 @@ Player.prototype.update = function(dt) {
 		if(enemyOwnedPositions[atRiskX][atRiskY]) {
 			console.log("collision!");
 			this.reset();
+			alert("Oh no");
+			currentScore -= 10;
+			document.getElementById("currentScore").innerHTML =currentScore;
+			if(allEnemies.length > 1){
+				allEnemies.pop();
+			}
+			recalcEnemyPositions();
 		}
+	}
+	if(this.curPosX == 0){
+		console.log("You win!");
+		//pauseGame();
+		this.reset();
+		//pauseGame();
+		alert("You win");
+		currentScore += 10;
+		document.getElementById("currentScore").innerHTML =currentScore;
+		allEnemies.push(new Enemy());
+		recalcEnemyPositions();
 	}
 };
 Player.prototype.render = function() {
@@ -167,7 +205,8 @@ Player.prototype.handleInput = function(theKey) {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 allEnemies = [];
-var enemyCount = Math.floor(Math.random()*5)+1;
+//var enemyCount = Math.floor(Math.random()*5)+1;
+var enemyCount = 1;
 for(var i=0;i<enemyCount;i++) {
 	allEnemies.push(new Enemy());
 }
