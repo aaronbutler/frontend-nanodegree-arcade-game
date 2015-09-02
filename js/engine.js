@@ -13,7 +13,8 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-
+paused = false;
+unpausefunction = [];
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -27,7 +28,8 @@ var Engine = (function(global) {
 
     canvas.width = 505;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
+	document.getElementById("theGame").appendChild(canvas);
+    //doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -56,7 +58,10 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+		 
+		 if(!paused) {
+			win.requestAnimationFrame(main);
+		 }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -66,6 +71,8 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
+		unpausefunction.push(win);
+		unpausefunction.push(main);
         main();
     }
 

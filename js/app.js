@@ -81,6 +81,7 @@ enemyOwnedPositions.push([false,false,false,false,false]);
 // a handleInput() method.
 var Player = function() {
 	this.sprite = "images/char-boy.png";
+	this.avatar = 0;
 	this.x = playerRows[4][2][0];
 	this.y = playerRows[4][2][1];
 	this.curPosX = 4;
@@ -202,4 +203,81 @@ window.addEventListener('load',function(f) {
 		console.log(e);
 		player.handleInput('right');
 	});
+	
+	//Menu drawer open/close and hamburger icon handling
+	var hamburger = document.querySelector("#hamburger");
+	var topHeader = document.querySelector("#top-header");
+	var navDrawer = document.querySelector("#nav-drawer");
+
+	hamburger.addEventListener("click", function(e) {
+		//console.log("hamburger clicked");
+		navDrawer.classList.toggle("open");
+		e.stopPropagation();
+	});
+	topHeader.addEventListener("click", function() {
+		navDrawer.classList.remove("open");
+	});
+
+	var menuItems = document.querySelectorAll(".menu-item");
+	var i;
+	for (i = 0; i < menuItems.length; i++) {
+		menuItems[i].addEventListener("click",function() {
+			//console.log("closing drawer after click");
+			navDrawer.classList.remove("open");
+		})
+	}
+	//end menu drawer handling
+	
+	var pauser = document.querySelector("#pause");
+
+	//Doesn't really pause - the bugs "move" in the background with no collisions
+	pauser.addEventListener("click", function(e) {
+		pauseGame();
+	});
+	
+	pauseGame = function() {
+		console.log("Paused state: "+paused);
+		if(paused) {
+			paused = !paused;
+			unpausefunction[0].requestAnimationFrame(unpausefunction[1]);
+		}
+		else {
+			paused = !paused;
+		}
+	}
+	
+	//create list of possible avatars and preload them
+	var avatarMap = {
+		0: "images/char-boy.png",
+		1: "images/char-cat-girl.png",
+		2: "images/char-horn-girl.png",
+		3: "images/char-pink-girl.png",
+		4: "images/char-princess-girl.png"
+		
+	};
+	for(var i=0;i<5;i++) {
+		Resources.load(avatarMap[i]);
+	}
+	
+	
+	
+	var avatar = document.querySelector("#avatar");
+	//var callbackwrapper = function(avatar) {
+			//console.log("wrap this: "+this.name);
+			//var _player = this;
+			avatar.addEventListener("click", function(e) {
+				//pauseGame();
+				console.log("Switching avatar");
+				var av = (player.avatar+1)%5;
+				var newsprite = avatarMap[av];
+				Resources.load(newsprite);
+				player.avatar = av;
+				player.sprite = newsprite;
+				//pauseGame();
+				//_player.render();
+			});
+	//};
+	//callbackwrapper.call(player,avatar);
+	
+	
 });
