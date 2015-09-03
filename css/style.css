@@ -78,6 +78,7 @@ button {
 	
 	#controller {
 		display: block;
+		width: 65%;
 	}
 	
 	button {

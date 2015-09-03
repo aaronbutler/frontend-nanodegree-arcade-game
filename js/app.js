@@ -163,40 +163,43 @@ Player.prototype.reset = function() {
 	this.curPosX = 4;
 	this.curPosY = 2;
 }
+
 Player.prototype.handleInput = function(theKey) {
-	console.log("Player input: "+theKey+", "+this.curPosX+", "+this.curPosY);
-	switch(theKey) {
-		case "left":
-			if(this.curPosY > 0) {
-				this.curPosY -= 1;
-				this.x = playerRows[this.curPosX][this.curPosY][0];
-				this.y = playerRows[this.curPosX][this.curPosY][1];
-			}
-			break;
-		
-		case "right":
-			if(this.curPosY < 4) {
-				this.curPosY += 1;
-				this.x = playerRows[this.curPosX][this.curPosY][0];
-				this.y = playerRows[this.curPosX][this.curPosY][1];
-			}
-			break;
-		
-		case "up":
-			if(this.curPosX > 0) {
-				this.curPosX -= 1;
-				this.x = playerRows[this.curPosX][this.curPosY][0];
-				this.y = playerRows[this.curPosX][this.curPosY][1];
-			}
-			break;
-		
-		case "down":
-			if(this.curPosX < 5) {
-				this.curPosX += 1;
-				this.x = playerRows[this.curPosX][this.curPosY][0];
-				this.y = playerRows[this.curPosX][this.curPosY][1];
-			}
-			break;
+	//console.log("Player input: "+theKey+", "+this.curPosX+", "+this.curPosY);
+	if(!paused) {
+		switch(theKey) {
+			case "left":
+				if(this.curPosY > 0) {
+					this.curPosY -= 1;
+					this.x = playerRows[this.curPosX][this.curPosY][0];
+					this.y = playerRows[this.curPosX][this.curPosY][1];
+				}
+				break;
+			
+			case "right":
+				if(this.curPosY < 4) {
+					this.curPosY += 1;
+					this.x = playerRows[this.curPosX][this.curPosY][0];
+					this.y = playerRows[this.curPosX][this.curPosY][1];
+				}
+				break;
+			
+			case "up":
+				if(this.curPosX > 0) {
+					this.curPosX -= 1;
+					this.x = playerRows[this.curPosX][this.curPosY][0];
+					this.y = playerRows[this.curPosX][this.curPosY][1];
+				}
+				break;
+			
+			case "down":
+				if(this.curPosX < 5) {
+					this.curPosX += 1;
+					this.x = playerRows[this.curPosX][this.curPosY][0];
+					this.y = playerRows[this.curPosX][this.curPosY][1];
+				}
+				break;
+		}
 	}
 };
 
@@ -263,7 +266,7 @@ window.addEventListener('load',function(f) {
 		menuItems[i].addEventListener("click",function() {
 			//console.log("closing drawer after click");
 			navDrawer.classList.remove("open");
-		})
+		});
 	}
 	//end menu drawer handling
 	
@@ -312,6 +315,10 @@ window.addEventListener('load',function(f) {
 				Resources.load(newsprite);
 				player.avatar = av;
 				player.sprite = newsprite;
+				if(paused) {
+					pauseGame();
+					pauseGame();
+				}
 				//pauseGame();
 				//_player.render();
 			});
