@@ -12,7 +12,6 @@ var Enemy = function() {
 	this.x = pos[0];
 	this.y = pos[1];
 	this.track = (this.y-60)/83;
-	console.log("Enemy Track: "+this.track);
 	this.speed = Math.random()*150;
 };
 
@@ -46,19 +45,7 @@ Enemy.prototype.update = function(dt) {
 	}
 	
 	if(player.curPosX >0 && player.curPosX <4) {
-		var atRiskX = player.curPosX-1;
-		var atRiskY = player.curPosY;
-		if(enemyOwnedPositions[atRiskX][atRiskY]) {
-			console.log("collision!");
-			player.reset();
-			alert("Oh no");
-			currentScore -= 10;
-			document.getElementById("currentScore").innerHTML =currentScore;
-			if(allEnemies.length > 1){
-				allEnemies.pop();
-			}
-			recalcEnemyPositions();
-		}
+		checkCollision.call(player);
 	}
 	
 	
@@ -77,25 +64,27 @@ function getEnemyDomainRandom() {
 	return [Math.floor(Math.random()*606)-101,60+(Math.floor((Math.random()*3)))*83];
 }
 
+recalcEnemyPositions = function(){
+	//console.log(allEnemies);
+
+	
+	for(var i=0;i<3;i++) {
+		for (var j=0; j<5;j++) {
+			enemyOwnedPositions[i][j] = false;
+		}
+			
+	}
+	//console.log(enemyOwnedPositions);
+}
+
 //corresponds to the gray squares
 enemyOwnedPositions = [];
 enemyOwnedPositions.push([false,false,false,false,false]);
 enemyOwnedPositions.push([false,false,false,false,false]);
 enemyOwnedPositions.push([false,false,false,false,false]);
+//recalcEnemyPositions();
 
 
-recalcEnemyPositions = function(){
-	console.log(allEnemies);
-
-	
-	for(var i=0;i<enemyOwnedPositions.length;i++) {
-		for (var j=0; j<enemyOwnedPositions[i].length;j++) {
-			enemyOwnedPositions[i][j] = false;
-		}
-			
-	}
-	console.log(enemyOwnedPositions);
-}
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
@@ -125,38 +114,33 @@ playerRows.push([[-2,155],[99,155],[200,155],[301,155],[402,155]]);
 playerRows.push([[-2,238],[99,238],[200,238],[301,238],[402,238]]);
 playerRows.push([[-2,321],[99,321],[200,321],[301,321],[402,321]]);
 playerRows.push([[-2,404],[99,404],[200,404],[301,404],[402,404]]);
+
 Player.prototype.update = function(dt) {
 	//console.log("player update: "+dt);
 	if(this.curPosX >0 && this.curPosX <4) {
-		var atRiskX = this.curPosX-1;
-		var atRiskY = this.curPosY;
-		if(enemyOwnedPositions[atRiskX][atRiskY]) {
-			console.log("collision!");
-			this.reset();
-			alert("Oh no");
-			currentScore -= 10;
-			document.getElementById("currentScore").innerHTML =currentScore;
-			if(allEnemies.length > 1){
-				allEnemies.pop();
-			}
-			recalcEnemyPositions();
-		}
+		checkCollision.call(this);
 	}
+
+
+	//blue row
 	if(this.curPosX == 0){
-		console.log("You win!");
-		//pauseGame();
+		//console.log("You win!");
+
 		this.reset();
-		//pauseGame();
-		alert("You win");
+
+		alert("You Win!");
 		currentScore += 10;
 		document.getElementById("currentScore").innerHTML =currentScore;
 		allEnemies.push(new Enemy());
 		recalcEnemyPositions();
 	}
 };
+
 Player.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+//sends player to middle of top green row
 Player.prototype.reset = function() {
 	this.x = playerRows[4][2][0];
 	this.y = playerRows[4][2][1];
@@ -203,12 +187,29 @@ Player.prototype.handleInput = function(theKey) {
 	}
 };
 
+//Expects to be called with player as this
+function checkCollision() {
+	var atRiskX = this.curPosX-1;
+	var atRiskY = this.curPosY;
+	if(enemyOwnedPositions[atRiskX][atRiskY]) {
+		//console.log("collision!");
+		this.reset();
+		alert("Oh no!");
+		currentScore -= 10;
+		document.getElementById("currentScore").innerHTML =currentScore;
+		if(allEnemies.length > 1){
+			allEnemies.pop();
+		}
+		recalcEnemyPositions();
+	}
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 allEnemies = [];
-//var enemyCount = Math.floor(Math.random()*5)+1;
+
+//Start with 1 enemy, increase as the player wins, decrease as they lose
 var enemyCount = 1;
 for(var i=0;i<enemyCount;i++) {
 	allEnemies.push(new Enemy());
@@ -230,55 +231,32 @@ document.addEventListener('keyup', function(e) {
 });
 window.addEventListener('load',function(f) {
 	document.getElementById("upBtn").addEventListener('click', function(e) {
-		console.log(e);
+		//console.log(e);
 		player.handleInput('up');
 	});
 	document.getElementById("downBtn").addEventListener('click', function(e) {
-		console.log(e);
+		//console.log(e);
 		player.handleInput('down');
 	});
 	document.getElementById("leftBtn").addEventListener('click', function(e) {
-		console.log(e);
+		//console.log(e);
 		player.handleInput('left');
 	});
 	document.getElementById("rightBtn").addEventListener('click', function(e) {
-		console.log(e);
+		//console.log(e);
 		player.handleInput('right');
 	});
-	
-	//Menu drawer open/close and hamburger icon handling
-	var hamburger = document.querySelector("#hamburger");
-	var topHeader = document.querySelector("#top-header");
-	var navDrawer = document.querySelector("#nav-drawer");
 
-	hamburger.addEventListener("click", function(e) {
-		//console.log("hamburger clicked");
-		navDrawer.classList.toggle("open");
-		e.stopPropagation();
-	});
-	topHeader.addEventListener("click", function() {
-		navDrawer.classList.remove("open");
-	});
-
-	var menuItems = document.querySelectorAll(".menu-item");
-	var i;
-	for (i = 0; i < menuItems.length; i++) {
-		menuItems[i].addEventListener("click",function() {
-			//console.log("closing drawer after click");
-			navDrawer.classList.remove("open");
-		});
-	}
-	//end menu drawer handling
 	
 	var pauser = document.querySelector("#pause");
 
-	//Doesn't really pause - the bugs "move" in the background with no collisions
+	//Doesn't really pause - the enemies "move" in the background with no collisions
 	pauser.addEventListener("click", function(e) {
 		pauseGame();
 	});
 	
 	pauseGame = function() {
-		console.log("Paused state: "+paused);
+		//console.log("Paused state: "+paused);
 		if(paused) {
 			paused = !paused;
 			unpausefunction[0].requestAnimationFrame(unpausefunction[1]);
@@ -289,6 +267,7 @@ window.addEventListener('load',function(f) {
 	}
 	
 	//create list of possible avatars and preload them
+	//Is there any difference between this and an array?
 	var avatarMap = {
 		0: "images/char-boy.png",
 		1: "images/char-cat-girl.png",
@@ -297,33 +276,27 @@ window.addEventListener('load',function(f) {
 		4: "images/char-princess-girl.png"
 		
 	};
+	//do this so the game doesn't pause or throw errors while loading assets while playing
 	for(var i=0;i<5;i++) {
 		Resources.load(avatarMap[i]);
 	}
-	
-	
-	
+
 	var avatar = document.querySelector("#avatar");
-	//var callbackwrapper = function(avatar) {
-			//console.log("wrap this: "+this.name);
-			//var _player = this;
-			avatar.addEventListener("click", function(e) {
-				//pauseGame();
-				console.log("Switching avatar");
-				var av = (player.avatar+1)%5;
-				var newsprite = avatarMap[av];
-				Resources.load(newsprite);
-				player.avatar = av;
-				player.sprite = newsprite;
-				if(paused) {
-					pauseGame();
-					pauseGame();
-				}
-				//pauseGame();
-				//_player.render();
-			});
-	//};
-	//callbackwrapper.call(player,avatar);
-	
-	
+
+	avatar.addEventListener("click", function(e) {
+		//console.log("Switching avatar");
+		var av = (player.avatar+1)%5;
+		var newsprite = avatarMap[av];
+		Resources.load(newsprite);
+		player.avatar = av;
+		player.sprite = newsprite;
+		
+		//do this so the avatar changes on screen while game is paused
+		if(paused) {
+			pauseGame();
+			pauseGame();
+		}
+
+	});
+
 });
