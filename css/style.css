@@ -1,5 +1,5 @@
 body {
-    text-align: center;
+	text-align: center;
 }
 
 button {
@@ -71,19 +71,19 @@ button {
 	#the-game {
 		max-width: 65%;
 	}
-	
+
 	canvas {
 		max-width: 100%;
 	}
-	
+
 	#controller {
 		display: block;
 		width: 65%;
 	}
-	
+
 	button {
-	width: 7em;
-	height: 4em;
-}
+		width: 7em;
+		height: 4em;
+	}
 }
 

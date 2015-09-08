@@ -10,3 +10,7 @@ FROGGER
 
 ###On phone/tablet/small screen:
 * Use the up, down, left, and right buttons to move your avatar.
+
+###To Run:
+* Checkout the github repository and open index.html in Chrome or other browser (requires local javascript execution)
+* Or better yet - run from a server, and try it out from laptops, desktops, and/or mobile devices on your network

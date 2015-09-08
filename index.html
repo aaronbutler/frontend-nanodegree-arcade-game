@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Frogger</title>
-	<script src="js/page.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-	<div id="nav-drawer" class="header1">
-		<ul class="main-menu">
-			<li class="menu-item"><button id="pause">PAUSE</button></li>
-			<li class="menu-item"><button id="avatar">Change Avatar</button></li>
-		</ul>
-	</div>
-	<header id="top-header" class="top-header">
-		<div id="header" class="hamburger-container">
-    			<a id="hamburger" class="top-top-item" href="#">
-	    			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		    			<path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>
-		  		</svg>
-	  		</a>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>Frogger</title>
+		<script src="js/page.js"></script>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body>
+		<div id="nav-drawer" class="header1">
+			<ul class="main-menu">
+				<li class="menu-item">
+					<button id="pause">PAUSE</button>
+				</li>
+				<li class="menu-item">
+					<button id="avatar">Change Avatar</button>
+				</li>
+			</ul>
 		</div>
-		<div id="score-container" class="score-box">
-			<div>Current Score:</div>
-			<div id="current-score">0</div>
+		<header id="top-header" class="top-header">
+			<div id="header" class="hamburger-container">
+				<a id="hamburger" class="top-top-item" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+						<path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z" />
+					</svg>
+				</a>
+			</div>
+			<div id="score-container" class="score-box">
+				<div>Current Score:</div>
+				<div id="current-score">0</div>
+			</div>
+		</header>
+		<div id="the-game"></div>
+
+		<script src="js/resources.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/engine.js"></script>
+
+		<div id="controller" class="no-keyboard">
+			<div id="up">
+				<button type="button" id="up-btn">Up</button>
+			</div>
+			<div id="side-to-side">
+				<button type="button" id="left-btn">Left</button>
+				<button type="button" id="right-btn">Right</button>
+			</div>
+			<div id="down">
+				<button type="button" id="down-btn">Down</button>
+			</div>
 		</div>
-	</header>
-	<div id="the-game"></div>
-	
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
-	
-	<div id="controller" class="no-keyboard">
-		<div id="up"><button type="button" id="up-btn">Up</button></div>
-		<div id="side-to-side">
-			<button type="button" id="left-btn">Left</button>
-			<button type="button" id="right-btn">Right</button>
-		</div>
-		<div id="down"><button type="button" id="down-btn">Down</button></div>
-	</div>
-</body>
+	</body>
+
 </html>
