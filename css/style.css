@@ -68,7 +68,7 @@ button {
 }
 
 @media only screen and (max-width: 799px) {
-	#theGame {
+	#the-game {
 		max-width: 65%;
 	}
 	

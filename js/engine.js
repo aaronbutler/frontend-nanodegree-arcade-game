@@ -13,7 +13,9 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
-paused = false;
+ 
+//unpausefunction[0] == window, unpausefunction[1] == main function
+//the intent is to pass main to requestanimationframe when the user chooses to unpause
 unpausefunction = [];
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
@@ -25,10 +27,10 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-
+	win.paused=false;
     canvas.width = 505;
     canvas.height = 606;
-	document.getElementById("theGame").appendChild(canvas);
+	document.getElementById("the-game").appendChild(canvas);
     //doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -59,7 +61,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
 		 
-		 if(!paused) {
+		 if(!win.paused) {
 			win.requestAnimationFrame(main);
 		 }
     }
