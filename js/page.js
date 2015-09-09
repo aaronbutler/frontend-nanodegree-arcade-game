@@ -21,7 +21,7 @@ window.addEventListener('load',function(f) {
 
 	//var menuItems = document.querySelectorAll(".menu-item");
 	var menuItems = document.getElementsByClassName('menu-item');
-	for (var i = 0; i < menuItems.length; i++) {
+	for (var i = 0, len=menuItems.length; i < len; i++) {
 		menuItems[i].addEventListener('click',function() {
 			//console.log("closing drawer after click");
 			navDrawer.classList.remove('open');
